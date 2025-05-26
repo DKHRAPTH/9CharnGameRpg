@@ -12,10 +12,6 @@ from module.commands.shop import shop
 from module.commands.inventory import inventory
 from module.commands.use_function import use_item
 #-------------------------------#
-app = Flask(__name__)
-@app.route('/')
-def home():
-    return "Bot is running...."
 #-------------------------------#
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -51,6 +47,3 @@ async def _help(interaction: discord.Interaction):
     )
     await interaction.response.send_message(help_text, ephemeral=True)
 bot.run(TOKEN)
-
-if __name__ == "__main__":
-    app.run(debug=True)

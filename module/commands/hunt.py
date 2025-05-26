@@ -72,19 +72,21 @@ async def take_damage(interaction:discord.Interaction, mon_name, monter):
     if user_id in player :
         p = player[user_id]
         await in_battle(p,mon_name,monter,interaction)
-        while True:
-            
-            if p['hp'] <=0 or monter_inbattle["data"]['hp'] <=0 :
-                p['hp'] = 0
+        while True:           
+            if p['hp'] <=0 or monter_inbattle['data']['hp'] <=0:
                 break
             else:
                 if p['durability'] >0 and p['hp'] >0:
                     p['durability'] -=monter_inbattle['data']['damage']
                     monter_inbattle['data']['hp']-=p['damage']
                 else:
+                    p['durability'] = 0
+                    p['armor'] = "None"
                     p['hp'] -= monter_inbattle["data"]['damage']
                     monter_inbattle["data"]['hp'] -=p['damage']
-                await asyncio.sleep(0.01) #ใช้แทนtime.sleep เพราะ สามารถทำให้funcอื่นทำงานได้ด้วย
+                    if p['hp'] <=0 :
+                        p['h'] = 0
+            await asyncio.sleep(0.01) #ใช้แทนtime.sleep เพราะ สามารถทำให้funcอื่นทำงานได้ด้วย
         
         if p['hp'] <= 0 and monter_inbattle["data"]['hp'] > 0:
             p['hp'] = 0

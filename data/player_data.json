@@ -1,14 +1,14 @@
 {
     "891856991289507901": {
         "name": "I'm cool",
-        "hp": 19,
+        "hp": 0,
         "durability": 0,
         "max_hp": 20.75,
         "level": "3",
         "money": {
-            "value": 3616
+            "value": 3622
         },
-        "exp": 33,
+        "exp": 37,
         "damage": 12,
         "equip": "Banana Gun",
         "armor": "Grandma\u2019s Quilt",
