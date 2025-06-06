@@ -21,15 +21,14 @@ async def use_item(interaction: discord.Interaction):
     user_id = str(interaction.user.id)
 
     if user_id not in player or not player[user_id]['inventory']:
-        await interaction.followup.send("คุณไม่มีไอเท็มในคลัง", ephemeral=True)
-        return
-
+        await interaction.followup.send(embed=Embed(title="คุณไม่มีไอเท็มในคลัง", color=Color.red()), ephemeral=True)
     items = player[user_id]['inventory']
-    options = [discord.SelectOption(label=item_name) for item_name, amount in items.items()
+    options = [discord.SelectOption(label=item_name, description=f"มีจำนวน {amount}  รายละเอียด {des}") for item_name, amount in items.items()
+                for i, des in shop_items[item_name].items() if i == "damage"
     if isinstance(amount, int) and amount > 0
     ]
+    
     select = discord.ui.Select(placeholder="เลือกไอเท็ม", options=options)
-
     async def select_callback(select_inter: discord.Interaction):
         selected_item = select.values[0]
         #await interaction.response.defer(ephemeral=True)

@@ -62,8 +62,7 @@ async def shop(interaction: discord.Interaction):
         select_item.callback = item_list_callback
         new_view = View()
         new_view.add_item(select_item)
-        await inner_interaction.response.send_message(view=new_view, ephemeral=True)
-
+        await inner_interaction.response.edit_message(view=new_view)
 async def buy_item(intreaction:discord.Interaction, item_name):
     player = load_player_data()
     player_inventory = load_inventory_data()
@@ -86,11 +85,10 @@ async def buy_item(intreaction:discord.Interaction, item_name):
                 p['money'].subt(price)
                 save_player_data(player)
                 save_inventory_data(player_inventory)
-                await intreaction.followup.send(f"คุณได้ซื้อ {item_name} สำเร็จ\nสามารถใช้ /inventory", ephemeral=True)
+                buy_success_embed = Embed(title=f"คุณได้ซื้อ {item_name} สำเร็จ", description="สามารถใช้ /inventory เพื่อดูไอเท็มที่มีของคุณได้\nสามารถใช้ /use_item เพื่อใข้ไอเท็มที่มีของคุณได้", color=Color.blue())
+                await intreaction.edit_original_response(embed=buy_success_embed)
             else:
-                await intreaction.followup.send("คุณมีเงินไม่เพียงพอ", ephemeral=True)
-        else:
-            print("p['money'] is not an instance of SharedMoney")
-        
+                buy_fail_embed = Embed(title="**คุณมีเงินไม่เพียงพอ**",color=Color.red())
+                await intreaction.edit_original_response(embed=buy_fail_embed)
     else:
         await intreaction.response.send_message("คุณยังไม่ได้ลงทะเบียน \nคุณสามารถลงทะเบียนโดย /regis", ephemeral=True)

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from discord.ext import commands
 from module.data_game.Player.player_manager import load_player_data, load_inventory_data
+from discord import Embed, Color
 #------------commands----------#
 from module.commands.register import regis
 from module.commands.profile_command import stats
@@ -20,7 +21,6 @@ intents.message_content = True  # สำคัญมาก ต้องเปิ
 bot = commands.Bot(command_prefix="!", intents=intents)
 player = load_player_data()
 player_inventory = load_inventory_data()
-
 bot.tree.add_command(regis)
 bot.tree.add_command(stats)
 bot.tree.add_command(hunt)
@@ -33,17 +33,8 @@ async def on_ready():
     await bot.tree.sync()
     print(f"บอท {bot.user} ออนไลน์แล้ว!")
     load_player_data()
-    load_inventory_data()
 @bot.tree.command(name="_help", description="ดูคำสั่งทั้งหมด")
 async def _help(interaction: discord.Interaction):
-    help_text = (
-        "**คำสั่งทั้งหมดที่ใช้ได้:**\n"
-        "`/regis` - ลงทะเบียนผู้เล่นใหม่\n"
-        "`/stats` - ดูค่าสถานะของคุณ\n"
-        "`/hunt` - ออกล่า\n"
-        "`/shop` - เปิดร้านค้า\n"
-        "`/inventory` - ดูกระเป๋า\n"
-        "`/use_item` - ใช้ไอเท็ม\n"
-    )
-    await interaction.response.send_message(help_text, ephemeral=True)
+    embed = Embed(title="**คำสั่งทั้งหมดที่ใช้ได้**",description= "`/regis` - ลงทะเบียนผู้เล่นใหม่\n`/stats` - ดูค่าสถานะของคุณ\n`/hunt` - ออกล่า\n`/shop` - เปิดร้านค้า\n`/inventory` - ดูกระเป๋า\n`/use_item` - ใช้ไอเท็ม\n", color=Color.blurple())
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 bot.run(TOKEN)
