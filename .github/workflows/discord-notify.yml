@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Send notification to Discord
-        uses: Ilshidur/action-discord@v2
+        uses: ilshidur/action-discord@<commit-hash>
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           args: |
